@@ -1,12 +1,10 @@
-#!/usr/bin/python
-#
-# Copyright 2018 Google LLC
+# Copyright 2016 Google Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#      http://www.apache.org/licenses/LICENSE-2.0
+#     http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,41 +13,57 @@
 # limitations under the License.
 
 import webapp2
-import os
 import jinja2
-from models import Food
+import os
+from model import Dream
+from aylienapiclient import textapi
 
-#remember, you can get this by searching for jinja2 google app engine
-jinja_current_dir = jinja2.Environment(
+JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 
-class FoodHandler(webapp2.RequestHandler):
+class MainPage (webapp2.RequestHandler):
     def get(self):
-        start_template = jinja_current_dir.get_template("templates/welcome.html")
-        self.response.write(start_template.render())
+        home_template = JINJA_ENVIRONMENT.get_template('templates/home.html')
+        self.response.write(home_template.render())
+
+class EnterInfoHandler(webapp2.RequestHandler):
+    def get(self):
+        welcome_template = JINJA_ENVIRONMENT.get_template('templates/submit.html')
+        self.response.write(welcome_template.render())
+
+class ShowDreamHandler(webapp2.RequestHandler):
+    def get(self):
+        results_template = JINJA_ENVIRONMENT.get_template('templates/results.html')
+        #self.response.headers['Content-Type'] = 'text/plain'
+        self.response.write(results_template.render(dream_dict))
 
     def post(self):
-        the_fav_food = self.request.get('user-fav-food')
-        
-        #put into database (optional)
-        food_record = Food(food_name = the_fav_food)
-        food_record.put()
-        
-        #pass to the template via a dictionary
-        variable_dict = {'fav_food_for_view': the_fav_food}
-        end_template = jinja_current_dir.get_template("templates/results.html")
-        self.response.write(end_template.render(variable_dict))
+        client = textapi.Client("f02d5bcf", "f1bd4de2fe8c8bf3ea53946580b1afd4")
+        results_template = JINJA_ENVIRONMENT.get_template('templates/results.html')
+        dream_title = self.request.get("dream-title")
+        dream_summary = self.request.get("dream-summary")
+        sentiment = client.Sentiment({'text': dream_summary})
+        dream_sentiment = sentiment["polarity"]
+        print dream_sentiment
 
-class ShowFoodHandler(webapp2.RequestHandler):
-    def get(self):
-        food_list_template = jinja_current_dir.get_template("templates/foodlist.html")
-        fav_foods = Food.query().order(-Food.food_name).fetch(3)
-        dict_for_template = {'top_fav_foods': fav_foods}
-        self.response.write(food_list_template.render(dict_for_template))
+        dream = Dream(title=dream_title,
+                    dream_text=dream_summary,
+                    dream_sentiment=dream_sentiment)
+        dream.put()
+
+        all_dreams = Dream.query().fetch()
+
+        dream_dict = {"title" : dream_title,
+        "dream_summary" : dream_summary,
+        "sentiment" : dream_sentiment,
+        "all_dreams" : all_dreams}
+
+        self.response.write(results_template.render(dream_dict))
 
 app = webapp2.WSGIApplication([
-    ('/', FoodHandler),
-    ('/showfavs', ShowFoodHandler)
+    ('/', MainPage),
+    ('/submit', EnterInfoHandler),
+    ('/showdream', ShowDreamHandler),
 ], debug=True)
