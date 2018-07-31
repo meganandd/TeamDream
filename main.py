@@ -73,8 +73,33 @@ class ShowDreamHandler(webapp2.RequestHandler):
 
         self.response.write(results_template.render(dream_dict))
 
+class DreamDataHandler(webapp2.RequestHandler):
+    def get(self):
+        data_template = JINJA_ENVIRONMENT.get_template('templates/data.html')
+
+        #get occurance of each sentiment in all dreams in DataStore
+        sentiments = []
+        possible_sentiments = ["Fear", "Anger", "Joy", "Confident", "Analytical", "Sadness", "Tentative"]
+
+        vardict = {}
+        for i in possible_sentiments:
+            vardict[i] = 0
+            vardict[i] = len(Dream.query().filter(Dream.dream_sentiment==i).fetch())
+
+        #get total number of dreams
+        total_dreams = len(Dream.query().fetch())
+        vardict["total"] = total_dreams
+
+        #get day of the week frequency
+
+        print vardict
+        #get day of the week frequency
+
+        self.response.write(data_template.render(vardict))
+
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/submit', EnterInfoHandler),
     ('/showdream', ShowDreamHandler),
+    ('/showdata', DreamDataHandler),
 ], debug=True)
