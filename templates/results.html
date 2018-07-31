@@ -17,6 +17,7 @@
         <h1>Your Dream Entry:</h1>
         <div>
             <h5 id="">Title: {{ title }}</h5>
+            <h5 id="">Date: {{ date }}</h5>
             <h5 id="">Summary: {{ dream_summary }}</h5>
             <h5 id="">Sentiment: {{ sentiment }}</h5>
         </div>
@@ -25,6 +26,7 @@
         {% for dream in all_dreams %}
         <div>
             <h5 id="">Title: {{ dream.title }}</h5>
+            <h5 id="">Date: {{ dream.dream_date }}</h5>
             <h5 id="">Summary: {{ dream.dream_text }}</h5>
             <h5 id="">Sentiment: {{ dream.dream_sentiment }}</h5>
         </div>
@@ -34,6 +36,7 @@
 
       <!--JavaScript at end of body for optimized loading-->
       <script src="js/scripts.js"></script>
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
     </body>

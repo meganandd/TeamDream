@@ -16,7 +16,12 @@ import webapp2
 import jinja2
 import os
 from model import Dream
-from aylienapiclient import textapi
+import requests
+import requests_toolbelt.adapters.appengine
+from google.appengine.api import urlfetch
+import json
+
+requests_toolbelt.adapters.appengine.monkeypatch()
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -40,15 +45,20 @@ class ShowDreamHandler(webapp2.RequestHandler):
         self.response.write(results_template.render(dream_dict))
 
     def post(self):
-        client = textapi.Client("f02d5bcf", "f1bd4de2fe8c8bf3ea53946580b1afd4")
         results_template = JINJA_ENVIRONMENT.get_template('templates/results.html')
-        dream_title = self.request.get("dream-title")
-        dream_summary = self.request.get("dream-summary")
-        sentiment = client.Sentiment({'text': dream_summary})
-        dream_sentiment = sentiment["polarity"]
-        print dream_sentiment
+
+        dream_title = self.request.get("dream-title") #get the title from the respective input tag in submit.html
+        dream_date = self.request.get("dream-date")
+        dream_summary = self.request.get("dream-summary") #get the summary from the rescpetive input tag in submit.html
+        url = "https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2017-09-21&text=" + dream_summary
+
+        r = requests.get(url, auth=("12b8c206-770b-4989-9909-2c1c625c9a8d", "nMHwFGhjTHIT"))
+        json_result = json.loads(r.text)["document_tone"]["tones"][0]["tone_name"]
+
+        dream_sentiment = json_result
 
         dream = Dream(title=dream_title,
+                    dream_date=dream_date,
                     dream_text=dream_summary,
                     dream_sentiment=dream_sentiment)
         dream.put()
@@ -56,6 +66,7 @@ class ShowDreamHandler(webapp2.RequestHandler):
         all_dreams = Dream.query().fetch()
 
         dream_dict = {"title" : dream_title,
+        "date" : dream_date,
         "dream_summary" : dream_summary,
         "sentiment" : dream_sentiment,
         "all_dreams" : all_dreams}
