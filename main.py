@@ -93,7 +93,9 @@ class DreamDataHandler(webapp2.RequestHandler):
         #get day of the week frequency
 
         print vardict
-        #get day of the week frequency
+    
+
+
 
         self.response.write(data_template.render(vardict))
 
