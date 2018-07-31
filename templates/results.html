@@ -1,27 +1,47 @@
-<!--
-  Copyright 2018 Google LLC
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
--->
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Delicious!</title>
-    <link rel="stylesheet" type="text/css" href="app-stylesheets/boring-style.css">
-  </head>
+  <html lang="en" dir="ltr">
+    <head>
+      <link href="https://fonts.googleapis.com/css?family=Questrial|Quicksand" rel="stylesheet">
+      <meta charset="utf-8">
+      <title>Dream Results</title>
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+<!-- Add Nav Bar?-->
     <body>
-    <h1>A Wish</h1>
-      <p>May all of your meals be overflowing with {{fav_food_for_view}}</p>
-      <img id="final-img" src="my-images/cat-fridge-cc.png" alt="cartoon drawing of cat on open fridge"/>
-  </body>
-</html>
+      <div class="container" style="font-family:Quicksand">
+        <h4 font="">Your Dream Entry:</h4>
+        <div class="card-panel hoverable" style="background-color:#F3EBF4;">
+            <h5 id="">Title: {{ title }}</h5>
+            <h5 id="">Date: {{ date }}</h5>
+            <h5 id="">Summary: {{ dream_summary }}</h5>
+            <h5 id="">Sentiment: {{ sentiment }}</h5>
+          </div>
+        </div>
+        <div class="container" style="font-family:Quicksand">
+        <h4>All Dream Entries:</h4>
+        {% for dream in all_dreams %}
+        <div>
+          <div class="card-panel hoverable" style="background-color:#F3EBF4;">
+            <h5 id="">Title: {{ dream.title }}</h5>
+            <h5 id="">Date: {{ dream.dream_date }}</h5>
+            <h5 id="">Summary: {{ dream.dream_text }}</h5>
+            <h5 id="">Sentiment: {{ dream.dream_sentiment }}</h5>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      </div><!-- .container  -->
+
+      <!--JavaScript at end of body for optimized loading-->
+      <script src="js/scripts.js"></script>
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+    </body>
+  </html>
