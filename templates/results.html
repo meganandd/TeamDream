@@ -13,25 +13,36 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
 <!-- Add Nav Bar?-->
-    <body>
+
+    <body style="background-color:#E4D0F2">
+
       <div class="container" style="font-family:Quicksand">
         <h4 font="">Your Dream Entry:</h4>
-        <div class="card-panel hoverable" style="background-color:#F3EBF4;">
+
+        <div class="collection with-header hoverable z-depth-1" style="background-color:#F0E6F2">
+          <div class="collection-header" style="background-color:#F0E6F2">
+
+
             <h5 id="">Title: {{ title }}</h5>
-            <h5 id="">Date: {{ date }}</h5>
-            <h5 id="">Summary: {{ dream_summary }}</h5>
-            <h5 id="">Sentiment: {{ sentiment }}</h5>
+            <h6 style="color:#757575"id="">Date: {{ date }}</h6>
+          </div>
+            <h6 class="collection-item"style="background-color:#F0E6F2"id="">Summary: {{ dream_summary }}</h6>
+            <h6 class="collection-item"style="background-color:#F0E6F2"id="">Sentiment: {{ sentiment }} </h6>
           </div>
         </div>
+
         <div class="container" style="font-family:Quicksand">
         <h4>All Dream Entries:</h4>
         {% for dream in all_dreams %}
         <div>
-          <div class="card-panel hoverable" style="background-color:#F3EBF4;">
-            <h5 id="">Title: {{ dream.title }}</h5>
-            <h5 id="">Date: {{ dream.dream_date }}</h5>
-            <h5 id="">Summary: {{ dream.dream_text }}</h5>
-            <h5 id="">Sentiment: {{ dream.dream_sentiment }}</h5>
+          <div class="collection with-header hoverable z-depth-1" style="background-color:#F0E6F2">
+            <div class="collection-header" style="background-color:#F0E6F2">
+              <h5 id="">Title: {{ dream.title }}</h5>
+              <h6 style="color:#757575"id="">Date: {{ dream.dream_date }}</h6>
+            </div>
+            <h6 class="collection-item"style="background-color:#F0E6F2"id="">Summary: {{ dream.dream_text }}</h6>
+            <h6 class="collection-item"style="background-color:#F0E6F2"id="">Sentiment: {{ dream.dream_sentiment }} </h6>
+
           </div>
         </div>
         {% endfor %}
@@ -44,4 +55,5 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
     </body>
+
   </html>
