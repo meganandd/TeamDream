@@ -3,7 +3,7 @@
     <head>
       <link href="https://fonts.googleapis.com/css?family=Questrial|Quicksand" rel="stylesheet">
       <meta charset="utf-8">
-      <title>Dream Results</title>
+      <title>All Dreams</title>
       <!--Import Google Icon Font-->
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <!--Import materialize.css-->
@@ -13,7 +13,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
 <!-- Add Nav Bar?-->
-    <body style="background-color:#E4D0F2">
+    <body style="background-color:#E4D0F2; font-family:Quicksand">
   <nav>
     <div class="nav-wrapper" style="font-family:Quicksand; background-color:#b39ddb">
       <a href="#" class="brand-logo right">dreampad</a>
@@ -26,27 +26,25 @@
       </ul>
     </div>
   </nav>
-      <div class="container" style="font-family:Quicksand">
-<br>
-        <h4 font="">Your Dream Entry:</h4>
-        <div class="collection with-header hoverable z-depth-2" style="background-color:#F0E6F2">
-          <div class="collection-header" style="background-color:#F0E6F2">
-            <h5 id="">Title: {{ title }}</h5>
-            <h6 style="color:#757575"id="">Date: {{ date }}</h6>
-          </div>
-            <h6 class="collection-item"style="background-color:#F0E6F2"id="">Summary: {{ dream_summary }}</h6>
-            <h6 class="collection-item"style="background-color:#F0E6F2"id="">Sentiment: {{ sentiment }} </h6>
+<div class="container">
+        <h4>All Dream Entries:</h4>
+        {% for dream in all_dreams %}
+        <div>
+          <div class="collection with-header hoverable z-depth-2" style="background-color:#F0E6F2">
+            <div class="collection-header" style="background-color:#F0E6F2">
+              <h5 id="">Title: {{ dream.title }}</h5>
+              <h6 style="color:#757575"id="">Date: {{ dream.dream_date }}</h6>
+            </div>
+            <h6 class="collection-item"style="background-color:#F0E6F2"id="">Summary: {{ dream.dream_text }}</h6>
+            <h6 class="collection-item"style="background-color:#F0E6F2"id="">Sentiment: {{ dream.dream_sentiment }} </h6>
           </div>
         </div>
-<br>
-        <div class="container" style="font-family:Quicksand">
-<!--link to dream stats?donut_large icon?-->
-<a class="waves-effect waves-light deep-purple lighten-3 btn z-depth-2"><i class="material-icons right">cloud_queue</i>All Dreams</a>
-<a class="waves-effect waves-light deep-purple lighten-3 btn z-depth-2"><i class="material-icons right">donut_large</i>Dream Stats</a>
-<!--make button work-->
-
-      </div>
-      </div><!-- .container  -->
+        {% endfor %}
+        <br>
+        <!--link to dream stats?donut_large icon?-->
+        <a class="waves-effect waves-light deep-purple lighten-3 btn z-depth-2"><i class="material-icons right">donut_large</i>Dream Stats</a>
+        <!--make button work-->
+    </div><!-- .container  -->
 
       <!--JavaScript at end of body for optimized loading-->
       <script src="js/scripts.js"></script>
