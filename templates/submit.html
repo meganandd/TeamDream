@@ -12,26 +12,110 @@
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
-
+    <body class = "purple lighten-5";>
+      <ul id = "nav">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#interpret">Interpret</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+      <center>
+        <br>
+        <h3 id = "interpret">Interpret</h3>
+        <br>
+      </center>
       <div class="container">
-        <h1>Record your Dream Here!</h1>
-        <form class="" method="post" action="/showdream">
-          <!-- <h1>{{ greeting1 }}</h1> -->
-          Dream Title:<br>
-             <input type="text" name="dream-title" placeholder="Title">
-             <br>
-          Date:<br>
-            <input type="date" name="dream-date">
-            <br>
-          Dream Summary:<br>
-             <input type="text" name="dream-summary" placeholder="Summary">
-             <br>
-             <input type="submit" name="" value="Submit Dream!">
-        </form>
-        
-        </div><!-- .container  -->
-      <!--JavaScript at end of body for optimized loading-->
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
-    </body>
-  </html>
+          <h6 class="card-panel grey lighten-1">Record your Dream Below! </h6>
+          <!-- <h1>Record your Dream Here!</h1> -->
+          <div class="boxed">
+            <form class="" method="post" action="/showdream">
+              <!-- <h1>{{ greeting1 }}</h1> -->
+              Dream Title:<br>
+                 <input type="text" name="dream-title" placeholder="Title">
+                 <br>
+              Date:<br>
+                 <input type="date" name="dream-date">
+                 </br>
+          </div>
+          <div class="box2">
+              Dream Summary:<br>
+                 <input type="text" name="dream-summary" placeholder="Summary">
+                 <br><br><br><br><br><br><br><br><br>
+            </form>
+            <button class="btn btn-large grey"><i class= "material-icons left">cloud</i>Submit Dream!</button>
+          </div>
+
+
+<style media="screen">
+
+.boxed{
+  border : 1px black;
+  background-color: white;
+  float: left;
+  height: 400px;
+  width: 500px;
+  padding: 50px;
+  box-shadow: 0px 4px 2px 2px grey;
+}
+
+.box2{
+  border : 1px black;
+  background-color: white;
+  float: right;
+  height: 400px;
+  width: 500px;
+  padding: 50px;
+  box-shadow: 2px 4px 2px 2px grey;
+
+}
+ html, body {
+  margin: 0;
+  height: 100%;
+}
+
+#head{
+  height: 100%;
+  margin: 0;
+  width: 100%
+}
+
+
+ul {
+    list-style-type: none;
+    position: sticky;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    width: 25%;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    padding: 20px;
+    background-color: grey ;
+    border-right: 1px solid #bbb;
+    color: white;
+}
+
+li a:hover:not(.active) {
+    background-color: black;
+}
+
+.active {
+    background-color: grey;
+}
+
+#nav{
+  background-color: grey ;
+  width: 100%;
+}
+
+#interpret{
+  font-family: 'Shadows Into Light', cursive;
+  font-size: 100px;
+}
+</style>
