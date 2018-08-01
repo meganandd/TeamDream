@@ -100,12 +100,36 @@ class DreamDataHandler(webapp2.RequestHandler):
         total_dreams = len(Dream.query().fetch())
         vardict["total"] = total_dreams
 
-        #get day of the week frequency
+        #get day of the week frequency#date frequency
+        all_dates = []
+        for dream in Dream.query().fetch():
+            all_dates.append(dream.dream_date.split("-"))
 
-        print vardict
+        for entry in all_dates:
+           for datepart in entry:
+               datepart = int(datepart)
 
+        new_all_dates = []
+        for entry in all_dates:
+            date_list = []
+            for datepart in entry:
+                date_list.append(int(datepart))
+            new_all_dates.append(date_list)
 
+        all_dates = new_all_dates
 
+        days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+        weekdays = []
+        for entry in all_dates:
+            day = datetime.date(entry[0], entry[1], entry[2])
+            weekdaynum = day.weekday()
+            weekdays.append(days[weekdaynum])
+
+        for day in days:
+            vardict[day] = 0
+            for d in weekdays:
+                if d == day:
+                    vardict[day] += 1
 
         self.response.write(data_template.render(vardict))
 
