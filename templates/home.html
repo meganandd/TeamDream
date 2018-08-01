@@ -3,11 +3,12 @@
     <head>
       <meta charset="utf-8">
       <title>Home</title>
+      <link rel="shortcut icon" href="favicon.ico" />
       <!--Import Google Icon Font-->
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <!--Import materialize.css-->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
-       <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
 
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -27,18 +28,19 @@
       <div id="bottom"></div>
       <div class="container">
         <center>
-        <br>
-        <h2 style="font-family:Quicksand">Welcome to dreampad!</h2>
-        <h5>Prepare for all your dreams to come true</h5>
-        <img src="https://78.media.tumblr.com/c08ba1d8a62c75b85b9513eb9fb964fc/tumblr_p6k33vvoxd1vpf6ddo1_500.gif" alt="cloud"></br>
-        <button id="homeButton" class="btn btn-large blue-grey" action="/submit">Get Started</button>
-        <br><br><br>
+          <br>
+          <h2 style="font-family:Quicksand">Welcome to dreampad!</h2>
+          <h5>Prepare for all your dreams to come true</h5>
+          <img src="https://78.media.tumblr.com/c08ba1d8a62c75b85b9513eb9fb964fc/tumblr_p6k33vvoxd1vpf6ddo1_500.gif" alt="cloud"></br>
+          <button id="homeButton" class="btn btn-large blue-grey" action="/submit">Get Started!</button>
+          <br><br><br>
         </center>
-        <script type="text/javascript">
-         document.getElementById("homeButton").onclick = function () {
-            location.href = "/mainmenu";
-          };
-        </script>
+
+      <script type="text/javascript">
+        document.getElementById("homeButton").onclick = function () {
+          location.href = "/submit";
+        };
+      </script>
 
       </div><!-- .container -->
 
