@@ -15,21 +15,25 @@
     </head>
 
     <body class = "purple lighten-5";>
-      <ul id = "nav">
-        <li><a href="home.html">Home</a></li>
-           <li><a href="submit.html">Submit</a></li>
-           <li><a href="data.html">Data</a></li>
-           <li><a href="alldreams.html">Journal</a></li>
-           <li><a href="About.html">About Us</a></li>
-           <li style="float:right"class="logo" href="">dreampad</li>
-      </ul>
+      <nav>
+        <div class="nav-wrapper" style="font-family:Quicksand; background-color:#b39ddb">
+          <a href="#" class="brand-logo right">dreampad</a>
+          <ul id="nav-mobile" class="left hide-on-med-and-down">
+            <li id="mainPage"><a href="/">Home</a></li>
+            <li id="submitNav"><a href="/submit">Submit</a></li>
+            <li id="data"><a href="/showdata">Data</a></li>
+            <li id="all"><a href="/allDreams">Journal</a></li>
+            <li id="aboutUs"><a href="/AboutUs">About Us</a></li>
+          </ul>
+        </div>
+      </nav>
       <center>
         <br>
         <h3 id = "interpret">Submit</h3>
         <br>
       </center>
       <div class="container">
-          <h6 class="card-panel grey lighten-1">Record your Dream Below! </h6>
+          <h6 class="card-panel deep-purple lighten-3 center-align">Record your Dream Below! </h6>
           <!-- <h1>Record your Dream Here!</h1> -->
           <div class="boxed">
             <form class="" method="post" action="/showdream">
@@ -40,19 +44,45 @@
               Date:<br>
                  <input type="date" name="dream-date">
                  </br>
+
+                 Dream Summary:<br>
+                    <input type="text" name="dream-summary" placeholder="Summary">
+                    <br><br><br><br><br><br><br><br><br>
+                   <input type="submit" name="" value="Submit Dream!">
           </div>
-          <div class="box2">
-              Dream Summary:<br>
-                 <input type="text" name="dream-summary" placeholder="Summary">
-                 <br><br><br><br><br><br><br><br><br>
             </form>
-            <button class="btn btn-large grey"><i class= "material-icons left">cloud</i>Submit Dream!</button>
-          </div>
+
+          <!-- <button class="btn btn-large grey"><i class= "material-icons left">cloud</i>Submit Dream!</button> -->
 
         </div><!-- .container  -->
       <!--JavaScript at end of body for optimized loading-->
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+      <script type="text/javascript">
+      document.getElementById("submitNav").onclick = function () {
+         location.href = "/submit";
+       };
+
+      document.getElementById("mainPage").onclick = function () {
+         location.href = "/";
+       };
+
+      document.getElementById("data").onclick = function () {
+         location.href = "/showdata";
+       };
+
+      document.getElementById("all").onclick = function () {
+         location.href = "/allDreams";
+       };
+
+      document.getElementById("aboutUs").onclick = function () {
+         location.href = "/AboutUs";
+       };
+      </script>
+      </body>
+      </html>
+
+
     </body>
   </html>
 
@@ -90,40 +120,10 @@
 }
 
 
-ul {
-    list-style-type: none;
-    position: sticky;
-    top: 0;
-    margin: 0;
-    padding: 0;
-    overflow: auto;
-    width: 25%;
-}
-
-li {
-    float: left;
-}
-
-li a {
-    display: block;
-    padding: 20px;
-    background-color: grey ;
-    border-right: 1px solid #bbb;
-    color: white;
-}
-
-li a:hover:not(.active) {
-    background-color: black;
-}
-
 .active {
     background-color: grey;
 }
 
-#nav{
-  background-color: grey ;
-  width: 100%;
-}
 
 #interpret{
   font-family: 'Shadows Into Light', cursive;
