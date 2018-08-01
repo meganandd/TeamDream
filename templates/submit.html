@@ -38,23 +38,21 @@
           <div class="boxed">
             <form class="" method="post" action="/showdream">
               <!-- <h1>{{ greeting1 }}</h1> -->
-              Dream Title:<br>
+              Dream Title:
                  <input type="text" name="dream-title" placeholder="Title">
                  <br>
-              Date:<br>
+              Date:
                  <input type="date" name="dream-date">
                  </br>
-
-                 Dream Summary:<br>
-                    <input type="text" name="dream-summary" placeholder="Summary">
-                    <br><br><br><br><br><br><br><br><br>
-                   <input type="submit" name="" value="Submit Dream!">
-          </div>
+              Dream Summary:<br><br>
+                    <!-- <input type="text" name="dream-summary" placeholder="Summary"> -->
+                  <textarea name="dream-summary" placeholder="Summary"></textarea>
+                  <br>
             </form>
-
-          <!-- <button class="btn btn-large grey"><i class= "material-icons left">cloud</i>Submit Dream!</button> -->
-
+            <button class="btn btn-large black"><i class= "material-icons left">cloud</i>Submit Dream!</button>
+          </div>
         </div><!-- .container  -->
+
       <!--JavaScript at end of body for optimized loading-->
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
@@ -93,7 +91,7 @@
   background-color: white;
   float: left;
   height: 400px;
-  width: 500px;
+  width: 1005px;
   padding: 50px;
   box-shadow: 0px 4px 2px 2px grey;
 }
@@ -130,12 +128,12 @@
   font-size: 100px;
 }
 
-.logo{
-  font-family: Quicksand;
-  font-size: 32px;
-  padding: 0;
-  padding-top: 7px;
-  padding-right: 5px;
-  color: white;
+textarea{
+  outline: blue;
+  border: 1px solid white;
+  resize: none;
+  width:900px;
+  height:75px;
 }
+
 </style>
