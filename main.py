@@ -33,6 +33,16 @@ class MainPage (webapp2.RequestHandler):
         home_template = JINJA_ENVIRONMENT.get_template('templates/home.html')
         self.response.write(home_template.render())
 
+class AboutPage (webapp2.RequestHandler):
+    def get(self):
+        about_template = JINJA_ENVIRONMENT.get_template('templates/About.html')
+        self.response.write(about_template.render())
+
+class AllDreams (webapp2.RequestHandler):
+    def get(self):
+        all_template = JINJA_ENVIRONMENT.get_template('templates/alldreams.html')
+        self.response.write(all_template.render())
+
 class EnterInfoHandler(webapp2.RequestHandler):
     def get(self):
         welcome_template = JINJA_ENVIRONMENT.get_template('templates/submit.html')
@@ -93,7 +103,7 @@ class DreamDataHandler(webapp2.RequestHandler):
         #get day of the week frequency
 
         print vardict
-    
+
 
 
 
@@ -104,4 +114,6 @@ app = webapp2.WSGIApplication([
     ('/submit', EnterInfoHandler),
     ('/showdream', ShowDreamHandler),
     ('/showdata', DreamDataHandler),
+    ('/AboutUs', AboutPage),
+    ('/allDreams', AllDreams)
 ], debug=True)

@@ -12,27 +12,28 @@
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
-<!-- Add Nav Bar?-->
     <body style="background-color:#E4D0F2; font-family:Quicksand">
+      <!--Here is the nav bar!-->
   <nav>
     <div class="nav-wrapper" style="font-family:Quicksand; background-color:#b39ddb">
       <a href="#" class="brand-logo right">dreampad</a>
       <ul id="nav-mobile" class="left hide-on-med-and-down">
-        <li><a href="home.html">Home</a></li>
-        <li><a href="submit.html">Submit</a></li>
-        <li><a href="data.html">Data</a></li>
-        <li><a href="alldreams.html">Journal</a></li>
-        <li><a href="About.html">About Us</a></li>
+        <li id="mainPage"><a href="/">Home</a></li>
+        <li id="submitNav"><a href="/submit">Submit</a></li>
+        <li id="data"><a href="/showdata">Data</a></li>
+        <li id="all"><a href="/allDreams">Journal</a></li>
+        <li id="aboutUs"><a href="/AboutUs">About Us</a></li>
       </ul>
     </div>
   </nav>
-<div class="container">
+
+  <div class="container">
         <h4>All Dream Entries:</h4>
         {% for dream in all_dreams %}
         <div>
           <div class="collection with-header hoverable z-depth-2" style="background-color:#F0E6F2">
             <div class="collection-header" style="background-color:#F0E6F2">
-              <h5 id="">Title: {{ dream.title }}</h5>
+              <h5 id="">{{ dream.title }}</h5>
               <h6 style="color:#757575"id="">Date: {{ dream.dream_date }}</h6>
             </div>
             <h6 class="collection-item"style="background-color:#F0E6F2"id="">Summary: {{ dream.dream_text }}</h6>
@@ -41,9 +42,9 @@
         </div>
         {% endfor %}
         <br>
-        <!--link to dream stats?donut_large icon?-->
-        <a class="waves-effect waves-light deep-purple lighten-3 btn z-depth-2"><i class="material-icons right">donut_large</i>Dream Stats</a>
-        <!--make button work-->
+<!--link to dream stats-->
+        <a id="data"><a href="/showdata" class="waves-effect waves-light deep-purple lighten-3 btn z-depth-2"><i class="material-icons right">donut_large</i>Dream Stats</a>
+<!--make button work-->
     </div><!-- .container  -->
 
       <!--JavaScript at end of body for optimized loading-->
@@ -51,6 +52,27 @@
       <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+      <script type="text/javascript">
+      document.getElementById("submitNav").onclick = function () {
+         location.href = "/submit";
+       };
+
+      document.getElementById("mainPage").onclick = function () {
+         location.href = "/";
+       };
+
+      document.getElementById("data").onclick = function () {
+         location.href = "/showdata";
+       };
+
+      document.getElementById("all").onclick = function () {
+         location.href = "/allDreams";
+       };
+
+      document.getElementById("aboutUs").onclick = function () {
+         location.href = "/AboutUs";
+       };
+      </script>
     </body>
 
   </html>
