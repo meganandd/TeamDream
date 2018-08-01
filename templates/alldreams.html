@@ -33,11 +33,13 @@
         <div>
           <div class="collection with-header hoverable z-depth-2" style="background-color:#F0E6F2">
             <div class="collection-header" style="background-color:#F0E6F2">
-              <h5 id="">{{ dream.title }}</h5>
-              <h6 style="color:#757575"id="">Date: {{ dream.dream_date }}</h6>
+
+              <h5 id="title">{{ dream.title }}</h5>
+              <h6 id="dream-date"style="color:#757575"id="">Date: {{ dream.dream_date }}</h6>
             </div>
-            <h6 class="collection-item"style="background-color:#F0E6F2"id="">Summary: {{ dream.dream_text }}</h6>
-            <h6 class="collection-item"style="background-color:#F0E6F2"id="">Sentiment: {{ dream.dream_sentiment }} </h6>
+            <h6 id="dream-summary"class="collection-item"style="background-color:#F0E6F2"id="">Summary: {{ dream.dream_summary }}</h6>
+            <h6 class="collection-item"style="background-color:#F0E6F2"id="sentiment">Sentiment: {{ dream.dream_sentiment }} </h6>
+          </div>
           </div>
         </div>
         {% endfor %}
