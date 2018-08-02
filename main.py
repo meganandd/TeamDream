@@ -41,8 +41,12 @@ class AboutPage (webapp2.RequestHandler):
 
 class AllDreams (webapp2.RequestHandler):
     def get(self):
+        all_dreams = Dream.query().order(Dream.dream_date).fetch()
+        dream_dict = {
+        "all_dreams" : all_dreams}
         all_template = JINJA_ENVIRONMENT.get_template('templates/alldreams.html')
-        self.response.write(all_template.render())
+        self.response.write(all_template.render(dream_dict))
+
 
 class EnterInfoHandler(webapp2.RequestHandler):
     def get(self):
