@@ -1,1 +1,3 @@
-TeamDream Dream Journal Web Application
+dreampad
+
+dream-pad.appspot.com
