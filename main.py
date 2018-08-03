@@ -163,14 +163,11 @@ class DreamDataHandler(webapp2.RequestHandler):
         sorted_map = list(reversed(sorted(word_count.items(), key=operator.itemgetter(1))))
 
         sorted_words = [sort[0] for sort in sorted_map]
-        print sorted_words
 
         top_words = []
         for word in sorted_words:
             if word.lower() not in get_stop_words():
                 top_words.append(word)
-
-        print top_words
 
         places = ["first", "second", "third", "fourth", "fifth"]
         # Fixed bug here -- add to TeamDream
