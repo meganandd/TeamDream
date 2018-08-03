@@ -3,17 +3,19 @@
     <head>
       <!--Import Google Icon Font-->
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Questrial|Quicksand" rel="stylesheet">
+      <link rel="icon" type="image/png" href="https://www.scimagojr.com/img/journalicon.png">
       <!--Import materialize.css-->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
-      <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
 
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     </head>
 
-    <body style="background-color:white" >
+    <body style="background-color:#E4D0F2">
+
       <nav>
         <div class="nav-wrapper" style="font-family:Quicksand; background-color:#b39ddb">
           <a href="#" class="brand-logo right">dreampad</a>
@@ -26,122 +28,77 @@
           </ul>
         </div>
       </nav>
-      <br><br>
-      <div class="boxed">
-        This graph shows your total amount of dreams and the number of dreams entered on each day of the week
+
+      <h3 style="text-align:center; font-family:Quicksand">{{ total }}</h3>
+
+      <div class="container">
+        <div class="row">
+        <div class="col s12 m12">
+          <div class="card hoverable z-depth-2" style="background-color:#F0E6F2">
+            <div class="card-content white-text">
+              <span class="card-title black-text" style="font-family:Quicksand";>Sentiment Analysis Data</span>
+              <div class="container">
+                <canvas id="sentimentChart" width="300" height="300"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class=box id="canvas-holder" style="width:30%;background-color: white";>
-        <center>  Total Dreams: {{ total }} </center>
-        <canvas id="monthChart" width="100" height="100"></canvas>
-        <script>
-        var ctx = document.getElementById("monthChart").getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-                datasets: [{
-                    label: '# of Dreams',
-                    data: [{{ Monday }}, {{ Tuesday }}, {{ Wednesday }}, {{ Thursday }}, {{ Friday }}, {{ Saturday }}, {{ Sunday }}],
-                    backgroundColor: [
-                        'rgba(245, 226, 79, 0.2)',
-                        'rgba(79, 99, 247, 0.2)',
-                        'rgba(181, 245, 79, 0.2)',
-                        'rgba(245, 143, 79, 0.2)',
-                        'rgba(143, 79, 245, 0.2)',
-                        'rgba(79, 181, 245, 0.2)',
-                        'rgba(58, 17, 52, 0.2)'
-                    ],
-                    borderColor: [
-                      'rgba(195, 123, 184, 1)',
-                      'rgba(235, 99, 214, 1)',
-                      'rgba(169, 61, 152, 1)',
-                      'rgba(169, 61, 152, 1)',
-                      'rgba(153, 84, 142, 1)',
-                      'rgba(129, 0, 109, 1)',
-                      'rgba(58, 17, 52, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero:true
-                        }
-                    }]
-                }
-            }
+      <div class="container">
+        <div class="row">
+        <div class="col s12 m12">
+          <div class="card hoverable z-depth-2" style="background-color:#F0E6F2">
+            <div class="card-content white-text">
+              <span class="card-title black-text" style="font-family:Quicksand";>Weekday Frequency Data</span>
+              <div class="container">
+                <canvas id="dayChart" width="300" height="300"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      <script>
+        let dayChart = document.getElementById("dayChart").getContext('2d');
+
+        let dChart = new Chart(dayChart, {
+          type:"bar",
+          data:{
+            labels:["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            datasets:[{
+              label: "# of Dreams",
+              data:[
+                {{ Monday }},
+                {{ Tuesday }},
+                {{ Wednesday }},
+                {{ Thursday }},
+                {{ Friday }},
+                {{ Saturday }},
+                {{ Sunday }}
+              ],
+              backgroundColor:[
+                'rgba(245, 226, 79, 0.4)',
+                'rgba(79, 99, 247, 0.4)',
+                'rgba(181, 245, 79, 0.4)',
+                'rgba(245, 143, 79, 0.4)',
+                'rgba(143, 79, 245, 0.4)',
+                'rgba(79, 181, 245, 0.4)',
+                'rgba(227, 170, 170, 0.4)'
+              ],
+              borderWidth:2,
+              borderColor:"rgba(122, 122, 122, 0.4)",
+              hoverBorderWidth:3,
+            }],
+          },
+          options: {},
         });
-        </script>
-
-      </div>
-      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-      <div class="boxed2">
-        This graph shows trends relating to the most common emotions detected in your dreams
-      </div>
-      <div class="box2" id="canvas-holder1" style="width:30%">
-        <canvas id="sentimentChart" width="100" height="100"></canvas>
-        <script>
-        var ctx = document.getElementById("sentimentChart").getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: ["Sadness", "Fear", "Joy", "Confident", "Tentative", "Analytical", "Anger"],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [{{ Sadness }}, {{ Fear }}, {{ Joy }}, {{ Confident }}, {{ Tentative }}, {{ Analytical }}, {{ Anger }}],
-                    backgroundColor: [
-                      'rgba(245, 226, 79, 0.2)',
-                      'rgba(79, 99, 247, 0.2)',
-                      'rgba(181, 245, 79, 0.2)',
-                      'rgba(245, 143, 79, 0.2)',
-                      'rgba(143, 79, 245, 0.2)',
-                      'rgba(79, 181, 245, 0.2)',
-                      'rgba(58, 17, 52, 0.2)'
-                    ],
-                    borderColor: [
-                      'rgba(195, 123, 184, 1)',
-                      'rgba(235, 99, 214, 1)',
-                      'rgba(169, 61, 152, 1)',
-                      'rgba(169, 61, 152, 1)',
-                      'rgba(153, 84, 142, 1)',
-                      'rgba(129, 0, 109, 1)',
-                      'rgba(58, 17, 52, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero:true
-                        }
-                    }]
-                }
-            }
-        });
-        </script>
-      </div>
-
-        <br><br>
-        <br><br>
-
-      <div class="container" id="topwords">
-        <ul class="collection with-header">
-            <li class="collection-header"><h4>Top Words</h4></li>
-            <li class="collection-item">1. {{ first }}</li>
-            <li class="collection-item">2. {{ second }}</li>
-            <li class="collection-item">3. {{ third }}</li>
-            <li class="collection-item">4. {{ fourth }}</li>
-            <li class="collection-item">5. {{ fifth }}</li>
-        </ul>
-      </div><!-- .container -->
-
+      </script>
 
       <!--JavaScript at end of body for optimized loading-->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
       <script type="text/javascript">
       document.getElementById("submitNav").onclick = function () {
          location.href = "/submit";
@@ -163,10 +120,9 @@
          location.href = "/AboutUs";
        };
       </script>
+
     </body>
   </html>
-
-
 
 <style media="screen">
 

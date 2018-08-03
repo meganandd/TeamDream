@@ -2,6 +2,7 @@
   <html lang="en" dir="ltr">
     <head>
       <link href="https://fonts.googleapis.com/css?family=Questrial|Quicksand" rel="stylesheet">
+      <link rel="icon" type="image/png" href="https://www.scimagojr.com/img/journalicon.png">
       <meta charset="utf-8">
       <title>Results</title>
       <!--Import Google Icon Font-->
@@ -26,6 +27,7 @@
       </ul>
     </div>
   </nav>
+
       <div class="container" style="font-family:Quicksand">
 <br>
         <h4 font="">Your Dream Entry:</h4>
@@ -35,15 +37,18 @@
             <h6 style="color:#757575"id="">{{ date }}</h6>
           </div>
             <h6 class="collection-item"style="background-color:#F0E6F2"id="">{{ dream_summary }}</h6>
-            <h6 class="collection-item"style="background-color:#F0E6F2"id="">Sentiment: {{ sentiment }} </h6>
+            <h6 class="collection-item"style="background-color:#F0E6F2"id="">Sentiment Found: {{ sentiment }} </h6>
           </div>
         </div>
-<br>
+
+        <br>
+
         <div class="container" style="font-family:Quicksand">
-<!--link to dream stats-->
-<a id="all" href="/allDreams"class="waves-effect waves-light deep-purple lighten-3 btn z-depth-2"><i class="material-icons right">cloud_queue</i>All Dreams</a>
-<a id="data" href="/showdata"class="waves-effect waves-light deep-purple lighten-3 btn z-depth-2"><i class="material-icons right">donut_large</i>Dream Stats</a>
-<!--make button work-->
+
+      <!--link to dream stats-->
+      <a id="all" href="/allDreams"class="waves-effect waves-light deep-purple lighten-3 btn z-depth-2"><i class="material-icons right">cloud_queue</i>All Dreams</a>
+      <a id="data" href="/showdata"class="waves-effect waves-light deep-purple lighten-3 btn z-depth-2"><i class="material-icons right">donut_large</i>Dream Stats</a>
+      <!--make button work-->
 
       </div>
       </div><!-- .container  -->

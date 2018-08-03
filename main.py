@@ -16,13 +16,14 @@ import webapp2
 import jinja2
 import os
 from model import Dream
+from model import Acc
 import requests
 import requests_toolbelt.adapters.appengine
 from google.appengine.api import urlfetch
 import json
 import datetime
 import operator
-
+from webapp2_extras import sessions
 requests_toolbelt.adapters.appengine.monkeypatch()
 
 JINJA_ENVIRONMENT = jinja2.Environment(
@@ -40,6 +41,36 @@ class AboutPage (webapp2.RequestHandler):
         about_template = JINJA_ENVIRONMENT.get_template('templates/About.html')
         self.response.write(about_template.render())
 
+class BaseHandler(webapp2.RequestHandler):
+    def dispatch(self):
+        # Get a session store for this request.
+        self.session_store = sessions.get_store(request=self.request)
+
+        try:
+            # Dispatch the request.
+            webapp2.RequestHandler.dispatch(self)
+        finally:
+            # Save all sessions.
+            self.session_store.save_sessions(self.response)
+
+    @webapp2.cached_property
+    def session(self):
+         #Returns a session using the default cookie key.
+        return self.session_store.get_session()
+class LogIn(BaseHandler):
+    def get(self):
+        login_template=JINJA_ENVIRONMENT.get_template('templates/login.html')
+        acc_name=self.request.get("acc-name")
+        acc_pass=self.request.get("acc-pass")
+
+        if Acc.query().filter(Acc.username == acc_name).fetch() and Acc.query().filter(Acc.password == acc_pass).fetch():
+            print ":)"
+        else:
+            print "Username or Password is incorrect"
+
+        self.response.write(login_template.render())
+        # allpasswords=Acc.query().filter(Acc.password == acc_pass).fetch()
+
 class AllDreams (webapp2.RequestHandler):
     def get(self):
         all_dreams = Dream.query().order(Dream.dream_date).fetch()
@@ -48,6 +79,19 @@ class AllDreams (webapp2.RequestHandler):
         all_template = JINJA_ENVIRONMENT.get_template('templates/alldreams.html')
         self.response.write(all_template.render(dream_dict))
 
+class CreateAccount(BaseHandler):
+    def get(self):
+
+        acc_template=JINJA_ENVIRONMENT.get_template('templates/CreateAccount.html')
+        user_name = self.request.get("user-name") #get the title from the respective input tag in submit.html
+        pass_word = self.request.get("pass-word")
+
+        account = Acc(username=user_name, password=pass_word)
+        account.put()
+
+        self.session["username"]=user_name
+        self.session["password"]=pass_word
+        self.response.write(acc_template.render())
 
 class EnterInfoHandler(webapp2.RequestHandler):
     def get(self):
@@ -163,14 +207,11 @@ class DreamDataHandler(webapp2.RequestHandler):
         sorted_map = list(reversed(sorted(word_count.items(), key=operator.itemgetter(1))))
 
         sorted_words = [sort[0] for sort in sorted_map]
-        print sorted_words
 
         top_words = []
         for word in sorted_words:
             if word.lower() not in get_stop_words():
                 top_words.append(word)
-
-        print top_words
 
         places = ["first", "second", "third", "fourth", "fifth"]
         # Fixed bug here -- add to TeamDream
@@ -183,11 +224,18 @@ class DreamDataHandler(webapp2.RequestHandler):
 
         self.response.write(data_template.render(vardict))
 
+config = {}
+config['webapp2_extras.sessions'] = {
+    'secret_key': 'my-super-secret-key',
+}
+
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/submit', EnterInfoHandler),
     ('/showdream', ShowDreamHandler),
     ('/showdata', DreamDataHandler),
     ('/AboutUs', AboutPage),
-    ('/allDreams', AllDreams)
-], debug=True)
+    ('/allDreams', AllDreams),
+    ('/CreateAccount',CreateAccount),
+    ('/login',LogIn)
+], debug=True, config=config)
