@@ -44,8 +44,6 @@
           </div>
         </div>
       </div>
-      </div>
-
       <div class="container">
         <div class="row">
         <div class="col s12 m12">
@@ -60,59 +58,6 @@
         </div>
       </div>
       </div>
-
-      <div class="container">
-        <ul class="collection with-header hoverable z-depth-2" style="font-family:Quicksand";>
-            <li class="collection-header" style="background-color:#F0E6F2"><h4>Word Frequency</h4></li>
-            <li class="collection-item" style="background-color:#F0E6F2">1. {{ first }}</li>
-            <li class="collection-item" style="background-color:#F0E6F2">2. {{ second }}</li>
-            <li class="collection-item" style="background-color:#F0E6F2">3. {{ third }}</li>
-            <li class="collection-item" style="background-color:#F0E6F2">4. {{ fourth }}</li>
-            <li class="collection-item" style="background-color:#F0E6F2">5. {{ fifth }}</li>
-        </ul>
-      </div><!-- .container -->
-
-      <script>
-        let sentimentChart = document.getElementById("sentimentChart").getContext('2d');
-
-        let sentChart = new Chart(sentimentChart, {
-          type:"pie",
-          data:{
-            labels:["Analytical", "Anger", "Confident", "Fear", "Joy", "Sadness", "Tentative"],
-            datasets:[{
-              label: "Dream Sentiment",
-              data:[
-                {{ Analytical }},
-                {{ Anger }},
-                {{ Confident }},
-                {{ Fear }},
-                {{ Joy }},
-                {{ Sadness }},
-                {{ Tentative }}
-              ],
-              backgroundColor:[
-                'rgba(245, 226, 79, 0.4)',
-                'rgba(79, 99, 247, 0.4)',
-                'rgba(181, 245, 79, 0.4)',
-                'rgba(245, 143, 79, 0.4)',
-                'rgba(143, 79, 245, 0.4)',
-                'rgba(79, 181, 245, 0.4)',
-                'rgba(227, 170, 170, 0.4)'
-              ],
-              borderWidth:2,
-              borderColor:"rgba(122, 122, 122, 0.4)",
-              hoverBorderWidth:3,
-            }],
-          },
-          options: {
-            legend:{
-              display:true,
-              position:"left"
-            }
-          },
-        });
-      </script>
-
       <script>
         let dayChart = document.getElementById("dayChart").getContext('2d');
 
@@ -247,4 +192,17 @@
   text-align: center;
 }
 
+#topwords{
+  width: 75%;
+  margin-left: 200px;
+  margin-top: 0px;
+  float: center;
+  margin-right: 50px;
+
+}
+
+.collection-header{
+  color: purple;
+  text-align: center;
+}
 </style>
