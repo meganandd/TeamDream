@@ -14,7 +14,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
 
-    <body class = "purple lighten-5";>
+    <body style="background-color:#E4D0F2">
       <nav>
         <div class="nav-wrapper" style="font-family:Quicksand; background-color:#b39ddb">
           <a href="#" class="brand-logo right">dreampad</a>
@@ -29,16 +29,18 @@
       </nav>
       <div class="container center-align">
       <div class="container center-align">
-      <div class="center-align card-panel hoverable z-depth-2" >
+      <div class="center-align card-panel hoverable z-depth-2" style="background-color:#F0E6F2">
           <h4 class="center-align"style="font-family:Quicksand">create an account:</h4>
-          <form class="" method="get" action="/CreateAccount">
+          <form class="" method="post" action="/CreateAccount">
             Username:
                <input type="text" name="user-name" placeholder="username" required>
                <br>
             Password:
-               <input type="text"  name="pass-word" placeholder="password" required>
+               <input type="password" name="pass-word" placeholder="password" required>
                <br>
-              <input id="createacc"style ="background-color: #b39ddb" class="btn z-depth-2" type="submit" name="" value="Sign Up">
+              <input id="createacc" style="background-color: #b39ddb" class="btn z-depth-2" type="submit" name="" value="Sign Up">
+              <br><br>
+              <h6>{{ error_message }}</h6>
           </form>
       </div>
 </div>
@@ -47,6 +49,7 @@
           z-depth-2">Continue as guest</a>
 </div>
 </div>
+
       <!--JavaScript at end of body for optimized loading-->
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
@@ -70,12 +73,13 @@
       document.getElementById("aboutUs").onclick = function () {
          location.href = "/AboutUs";
        };
-       document.getElementById("createacc").onclick = function () {
-          location.href = "/submit";
-        };
+       // document.getElementById("createacc").onclick = function () {
+       //    location.href = "/submit";
+       //  };
       document.getElementById("login").onclick = function () {
            location.href = "/login";
          };
+
       </script>
       </body>
       </html>
