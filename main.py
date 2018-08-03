@@ -60,53 +60,71 @@ class BaseHandler(webapp2.RequestHandler):
 class LogIn(BaseHandler):
     def get(self):
         login_template=JINJA_ENVIRONMENT.get_template('templates/login.html')
+        welcome_template=JINJA_ENVIRONMENT.get_template('templates/submit.html')
         acc_name=self.request.get("acc-name")
         acc_pass=self.request.get("acc-pass")
 
         if Acc.query().filter(Acc.username == acc_name).fetch() and Acc.query().filter(Acc.password == acc_pass).fetch():
-            print ":)"
+            self.response.write(welcome_template.render())
         else:
-            print "Username or Password is incorrect"
+            #print("Username or Password is incorrect")
+            self.response.write(login_template.render())
 
-        self.response.write(login_template.render())
         # allpasswords=Acc.query().filter(Acc.password == acc_pass).fetch()
 
-class AllDreams (webapp2.RequestHandler):
+class AllDreams (BaseHandler):
     def get(self):
-        all_dreams = Dream.query().order(Dream.dream_date).fetch()
-        dream_dict = {
-        "all_dreams" : all_dreams}
+        #all_dreams = Dream.query().order(Dream.dream_date).fetch()
+        #dream_dict = {
+        #"all_dreams" : all_dreams}
+        acc_template=JINJA_ENVIRONMENT.get_template('templates/login.html')
         all_template = JINJA_ENVIRONMENT.get_template('templates/alldreams.html')
-        self.response.write(all_template.render(dream_dict))
+        owner = self.session.get("username")
+        owner_dreams = Dream.query().filter(Dream.owner==owner).fetch()
+
+        owner_dict = {
+        "all_dreams" : owner_dreams
+
+        }
+        print(owner_dict)
+        self.response.write(all_template.render(owner_dict))
 
 class CreateAccount(BaseHandler):
     def get(self):
-
+        welcome_template=JINJA_ENVIRONMENT.get_template('templates/submit.html')
         acc_template=JINJA_ENVIRONMENT.get_template('templates/CreateAccount.html')
         user_name = self.request.get("user-name") #get the title from the respective input tag in submit.html
         pass_word = self.request.get("pass-word")
 
         account = Acc(username=user_name, password=pass_word)
         account.put()
-
+        if Acc.query().filter(Acc.username == user_name).fetch():
+            #print ("The user name " + user_name + " is already taken. Please try something else.")
+            self.response.write(acc_template.render())
+            self.response.write("FAKE")
+        else:
+            self.response.write(welcome_template.render())
         self.session["username"]=user_name
         self.session["password"]=pass_word
-        self.response.write(acc_template.render())
+
+
+#if continue as guest is clicked, self.session["hmm"]=guest
 
 class EnterInfoHandler(webapp2.RequestHandler):
     def get(self):
         welcome_template = JINJA_ENVIRONMENT.get_template('templates/submit.html')
         self.response.write(welcome_template.render())
 
-class ShowDreamHandler(webapp2.RequestHandler):
+class ShowDreamHandler(BaseHandler):
     def get(self):
         results_template = JINJA_ENVIRONMENT.get_template('templates/results.html')
         #self.response.headers['Content-Type'] = 'text/plain'
+
         self.response.write(results_template.render(dream_dict))
 
     def post(self):
         results_template = JINJA_ENVIRONMENT.get_template('templates/results.html')
-
+        login_template=JINJA_ENVIRONMENT.get_template('templates/login.html')
         dream_title = self.request.get("dream-title") #get the title from the respective input tag in submit.html
         dream_date = self.request.get("dream-date")
         dream_summary = self.request.get("dream-summary") #get the summary from the rescpetive input tag in submit.html
@@ -117,10 +135,13 @@ class ShowDreamHandler(webapp2.RequestHandler):
 
         dream_sentiment = json_result
 
+        owner = self.session.get("username")
+
         dream = Dream(title=dream_title,
                     dream_date=dream_date,
                     dream_text=dream_summary,
-                    dream_sentiment=dream_sentiment)
+                    dream_sentiment=dream_sentiment,
+                    owner=owner)
         dream.put()
 
         all_dreams = Dream.query().fetch()
