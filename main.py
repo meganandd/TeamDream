@@ -31,16 +31,6 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 
-class MainPage (webapp2.RequestHandler):
-    def get(self):
-        home_template = JINJA_ENVIRONMENT.get_template('templates/home.html')
-        self.response.write(home_template.render())
-
-class AboutPage (webapp2.RequestHandler):
-    def get(self):
-        about_template = JINJA_ENVIRONMENT.get_template('templates/About.html')
-        self.response.write(about_template.render())
-
 class BaseHandler(webapp2.RequestHandler):
     def dispatch(self):
         # Get a session store for this request.
@@ -52,20 +42,44 @@ class BaseHandler(webapp2.RequestHandler):
         finally:
             # Save all sessions.
             self.session_store.save_sessions(self.response)
-
     @webapp2.cached_property
     def session(self):
          #Returns a session using the default cookie key.
         return self.session_store.get_session()
+
+class MainPage(BaseHandler):
+    def get(self):
+        home_template = JINJA_ENVIRONMENT.get_template('templates/home.html')
+
+        if 'username' in self.session:
+            self.response.write(home_template.render(username=self.session['username']))
+        else:
+            self.response.write(home_template.render())
+
+        #if session.get("username")==True:
+            #greeting={"greeting_message":"Hello " + user_name + "."}
+            #self.response.write(acc_template.render(greeting))
+
+class AboutPage (webapp2.RequestHandler):
+    def get(self):
+        about_template = JINJA_ENVIRONMENT.get_template('templates/About.html')
+        self.response.write(about_template.render())
+
 class LogIn(BaseHandler):
     def get(self):
+        print "LogIn Handler!"
         login_template=JINJA_ENVIRONMENT.get_template('templates/login.html')
         welcome_template=JINJA_ENVIRONMENT.get_template('templates/submit.html')
         acc_name=self.request.get("acc-name")
         acc_pass=self.request.get("acc-pass")
+        self.session["username"]=acc_name
+        self.session["password"]=acc_pass
+        if acc_name==" ":
+            self.response.write(home_template.render())
 
-        if Acc.query().filter(Acc.username == acc_name).fetch() and Acc.query().filter(Acc.password == acc_pass).fetch():
+        elif Acc.query().filter(Acc.username == acc_name).fetch() and Acc.query().filter(Acc.password == acc_pass).fetch():
             self.response.write(welcome_template.render())
+
         else:
             #print("Username or Password is incorrect")
             self.response.write(login_template.render())
@@ -91,23 +105,36 @@ class AllDreams (BaseHandler):
 
 class CreateAccount(BaseHandler):
     def get(self):
+        print "CreateAccount Get"
+        acc_template=JINJA_ENVIRONMENT.get_template('templates/CreateAccount.html')
+        self.response.write(acc_template.render())
+
+    def post(self):
+
         welcome_template=JINJA_ENVIRONMENT.get_template('templates/submit.html')
         acc_template=JINJA_ENVIRONMENT.get_template('templates/CreateAccount.html')
         user_name = self.request.get("user-name") #get the title from the respective input tag in submit.html
         pass_word = self.request.get("pass-word")
-
+        self.session["username"]=user_name
+        self.session["password"]=pass_word
         account = Acc(username=user_name, password=pass_word)
         account.put()
         if Acc.query().filter(Acc.username == user_name).fetch():
+            error={"error_message":"The user name " + user_name + " is already taken. Please try something else."}
             #print ("The user name " + user_name + " is already taken. Please try something else.")
-            self.response.write(acc_template.render())
-            self.response.write("FAKE")
+            self.response.write(acc_template.render(error))
         else:
             self.response.write(welcome_template.render())
-        self.session["username"]=user_name
-        self.session["password"]=pass_word
 
 
+class LogoutHandler(BaseHandler):
+    def get(self):
+        home_template=JINJA_ENVIRONMENT.get_template('templates/home.html')
+        self.session.clear()
+        acc_name=self.request.get("acc-name")
+        acc_name=" "
+        if acc_name==" ":
+            self.response.write(home_template.render())
 #if continue as guest is clicked, self.session["hmm"]=guest
 
 class EnterInfoHandler(webapp2.RequestHandler):
@@ -154,26 +181,29 @@ class ShowDreamHandler(BaseHandler):
 
         self.response.write(results_template.render(dream_dict))
 
-class DreamDataHandler(webapp2.RequestHandler):
+class DreamDataHandler(BaseHandler):
     def get(self):
         data_template = JINJA_ENVIRONMENT.get_template('templates/data.html')
 
         #get occurance of each sentiment in all dreams in DataStore
-        sentiments = []
+
         possible_sentiments = ["Fear", "Anger", "Joy", "Confident", "Analytical", "Sadness", "Tentative"]
+
+        owner = self.session.get("username")
+        current_owner_dreams = Dream.query().filter(Dream.owner==owner).fetch()
 
         vardict = {}
         for i in possible_sentiments:
             vardict[i] = 0
-            vardict[i] = len(Dream.query().filter(Dream.dream_sentiment==i).fetch())
+            vardict[i] = len(Dream.query().filter(Dream.owner==owner).filter(Dream.dream_sentiment==i).fetch())
 
         #get total number of dreams
-        total_dreams = len(Dream.query().fetch())
+        total_dreams = len(current_owner_dreams)
         vardict["total"] = total_dreams
 
         #get day of the week frequency#date frequency
         all_dates = []
-        for dream in Dream.query().fetch():
+        for dream in current_owner_dreams:
             all_dates.append(dream.dream_date.split("-"))
 
         for entry in all_dates:
@@ -210,7 +240,7 @@ class DreamDataHandler(webapp2.RequestHandler):
 
         all_text = []
 
-        for dream in Dream.query().fetch():
+        for dream in current_owner_dreams:
             all_text.append(dream.dream_text)
 
         word_count = {}
@@ -258,5 +288,6 @@ app = webapp2.WSGIApplication([
     ('/AboutUs', AboutPage),
     ('/allDreams', AllDreams),
     ('/CreateAccount',CreateAccount),
-    ('/login',LogIn)
+    ('/login',LogIn),
+    ('/logout',LogoutHandler)
 ], debug=True, config=config)

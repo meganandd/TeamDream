@@ -14,7 +14,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
 
-    <body class = "purple lighten-5";>
+    <body style="background-color:#E4D0F2">
       <nav>
         <div class="nav-wrapper" style="font-family:Quicksand; background-color:#b39ddb">
           <a href="#" class="brand-logo right">dreampad</a>
@@ -29,14 +29,14 @@
       </nav>
       <div class="container center-align">
 <div class="container center-align">
-<div class="center-align card-panel hoverable z-depth-2">
+<div class="center-align card-panel hoverable z-depth-2" style="background-color:#F0E6F2">
     <h4 class="center-align"style="font-family:Quicksand">log in:</h4>
     <form class="" method="get" action="/login">
       Username:
          <input type="text" name="acc-name" placeholder="username" required>
          <br>
       Password:
-         <input type="text"  name="acc-pass" placeholder="password" required>
+         <input type="password"  name="acc-pass" placeholder="password" required>
          <br>
         <input id="login" style ="background-color: #b39ddb" class="btn z-depth-2" type="submit" name="" value="log in">
     </form>
@@ -71,11 +71,11 @@
          location.href = "/AboutUs";
        };
        document.getElementById("createorguest").onclick = function () {
-          location.href = "/submit";
+          location.href = "/CreateAccount";
         };
-      document.getElementById("login").onclick = function () {
-           location.href = "/submit";
-         };
+      // document.getElementById("login").onclick = function () {
+      //      location.href = "/submit";
+      //    };
          document.getElementById("createorguest").onclick = function () {
               location.href = "/CreateAccount";
             };
