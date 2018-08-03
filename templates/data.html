@@ -1,250 +1,373 @@
 <!DOCTYPE html>
-  <html>
-    <head>
-      <!--Import Google Icon Font-->
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      <link href="https://fonts.googleapis.com/css?family=Questrial|Quicksand" rel="stylesheet">
-      <link rel="icon" type="image/png" href="https://www.scimagojr.com/img/journalicon.png">
-      <!--Import materialize.css-->
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+   <html>
+     <head>
+       <!--Import Google Icon Font-->
+       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+       <link href="https://fonts.googleapis.com/css?family=Questrial|Quicksand" rel="stylesheet">
+       <link rel="icon" type="image/png" href="https://www.scimagojr.com/img/journalicon.png">
+       <!--Import materialize.css-->
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
 
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
 
-      <!--Let browser know website is optimized for mobile-->
-      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
+       <!--Let browser know website is optimized for mobile-->
+       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <body style="background-color:#E4D0F2">
+       <title>Dream Data</title>
+     </head>
 
-      <nav>
-        <div class="nav-wrapper" style="font-family:Quicksand; background-color:#b39ddb">
-          <a href="#" class="brand-logo right">dreampad</a>
-          <ul id="nav-mobile" class="left hide-on-med-and-down">
-            <li id="mainPage"><a href="/">Home</a></li>
-            <li id="submitNav"><a href="/submit">Submit</a></li>
-            <li id="data"><a href="/showdata">Data</a></li>
-            <li id="all"><a href="/allDreams">Journal</a></li>
-            <li id="aboutUs"><a href="/AboutUs">About Us</a></li>
-          </ul>
-        </div>
-      </nav>
+     <body style="background-color:#E4D0F2">
 
-      <h3 style="text-align:center; font-family:Quicksand">{{ total }}</h3>
+       <nav>
+         <div class="nav-wrapper" style="font-family:Quicksand; background-color:#b39ddb">
+           <a href="#" class="brand-logo right">dreampad</a>
+           <ul id="nav-mobile" class="left hide-on-med-and-down">
+             <li id="mainPage"><a href="/">Home</a></li>
+             <li id="submitNav"><a href="/submit">Submit</a></li>
+             <li id="data"><a href="/showdata">Data</a></li>
+             <li id="all"><a href="/allDreams">Journal</a></li>
+             <li id="aboutUs"><a href="/AboutUs">About Us</a></li>
+           </ul>
+         </div>
+       </nav>
 
-      <div class="container">
-        <div class="row">
-        <div class="col s12 m12">
-          <div class="card hoverable z-depth-2" style="background-color:#F0E6F2">
-            <div class="card-content white-text">
-              <span class="card-title black-text" style="font-family:Quicksand";>Sentiment Analysis Data</span>
-              <div class="container">
-                <canvas id="sentimentChart" width="300" height="300"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
+       <br>
+       <div class="container">
+         <div class="row">
+           <div class="col s4 offset-s4">
+             <div class="card hoverable z-depth-2" style="background-color:#F0E6F2">
+               <div class="card-content black-text">
+                 <div class="counter col_fourth" style="background-color:#F0E6F2">
+                   <h2 class="timer count-title count-number" data-to={{ total }} data-speed="1500" style="text-align:center; font-family:Quicksand">></h2>
+                    <p style="text-align:center; font-family:Quicksand" class="count-text ">total dreams</p>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
 
-      <div class="container">
-        <div class="row">
-        <div class="col s12 m12">
-          <div class="card hoverable z-depth-2" style="background-color:#F0E6F2">
-            <div class="card-content white-text">
-              <span class="card-title black-text" style="font-family:Quicksand";>Weekday Frequency Data</span>
-              <div class="container">
-                <canvas id="dayChart" width="300" height="300"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
+       <div class="container">
+         <div class="row">
+         <div class="col s12 m12">
+           <div class="card hoverable z-depth-2" style="background-color:#F0E6F2">
+             <div class="card-content white-text">
+               <span class="card-title black-text" style="font-family:Quicksand";>Sentiment Analysis Data</span>
+               <div class="container">
+                 <canvas id="sentimentChart" width="300" height="300"></canvas>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+       </div>
 
-      <div class="container">
-        <ul class="collection with-header hoverable z-depth-2" style="font-family:Quicksand";>
-            <li class="collection-header" style="background-color:#F0E6F2"><h4>Word Frequency</h4></li>
-            <li class="collection-item" style="background-color:#F0E6F2">1. {{ first }}</li>
-            <li class="collection-item" style="background-color:#F0E6F2">2. {{ second }}</li>
-            <li class="collection-item" style="background-color:#F0E6F2">3. {{ third }}</li>
-            <li class="collection-item" style="background-color:#F0E6F2">4. {{ fourth }}</li>
-            <li class="collection-item" style="background-color:#F0E6F2">5. {{ fifth }}</li>
-        </ul>
-      </div><!-- .container -->
+       <div class="container">
+         <div class="row">
+         <div class="col s12 m12">
+           <div class="card hoverable z-depth-2" style="background-color:#F0E6F2">
+             <div class="card-content white-text">
+               <span class="card-title black-text" style="font-family:Quicksand";>Weekday Frequency Data</span>
+               <div class="container">
+                 <canvas id="dayChart" width="300" height="300"></canvas>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+       </div>
 
-      <script>
-        let sentimentChart = document.getElementById("sentimentChart").getContext('2d');
+       <div class="container">
+         <ul class="collection with-header hoverable z-depth-2" style="font-family:Quicksand";>
+             <li class="collection-header" style="background-color:#F0E6F2"><h4>Word Frequency</h4></li>
+             <li class="collection-item" style="background-color:#F0E6F2">1. {{ first }}</li>
+             <li class="collection-item" style="background-color:#F0E6F2">2. {{ second }}</li>
+             <li class="collection-item" style="background-color:#F0E6F2">3. {{ third }}</li>
+             <li class="collection-item" style="background-color:#F0E6F2">4. {{ fourth }}</li>
+             <li class="collection-item" style="background-color:#F0E6F2">5. {{ fifth }}</li>
+         </ul>
+       </div><!-- .container -->
 
-        let sentChart = new Chart(sentimentChart, {
-          type:"pie",
-          data:{
-            labels:["Analytical", "Anger", "Confident", "Fear", "Joy", "Sadness", "Tentative"],
-            datasets:[{
-              label: "Dream Sentiment",
-              data:[
-                {{ Analytical }},
-                {{ Anger }},
-                {{ Confident }},
-                {{ Fear }},
-                {{ Joy }},
-                {{ Sadness }},
-                {{ Tentative }}
-              ],
-              backgroundColor:[
-                'rgba(245, 226, 79, 0.4)',
-                'rgba(79, 99, 247, 0.4)',
-                'rgba(181, 245, 79, 0.4)',
-                'rgba(245, 143, 79, 0.4)',
-                'rgba(143, 79, 245, 0.4)',
-                'rgba(79, 181, 245, 0.4)',
-                'rgba(227, 170, 170, 0.4)'
-              ],
-              borderWidth:2,
-              borderColor:"rgba(122, 122, 122, 0.4)",
-              hoverBorderWidth:3,
-            }],
-          },
-          options: {
-            legend:{
-              display:true,
-              position:"left"
-            }
-          },
-        });
-      </script>
+       <script>
+         let sentimentChart = document.getElementById("sentimentChart").getContext('2d');
 
-      <script>
-        let dayChart = document.getElementById("dayChart").getContext('2d');
+         let sentChart = new Chart(sentimentChart, {
+           type:"pie",
+           data:{
+             labels:["Analytical", "Anger", "Confident", "Fear", "Joy", "Sadness", "Tentative", "Null"],
+             datasets:[{
+               label: "Dream Sentiment",
+               data:[
+                 {{ Analytical }},
+                 {{ Anger }},
+                 {{ Confident }},
+                 {{ Fear }},
+                 {{ Joy }},
+                 {{ Sadness }},
+                 {{ Tentative }},
+                 {{ Null }},
+               ],
+               backgroundColor:[
+                 'rgba(245, 226, 79, 0.4)',
+                 'rgba(79, 99, 247, 0.4)',
+                 'rgba(181, 245, 79, 0.4)',
+                 'rgba(245, 143, 79, 0.4)',
+                 'rgba(143, 79, 245, 0.4)',
+                 'rgba(79, 181, 245, 0.4)',
+                 'rgba(227, 170, 170, 0.4)'
+               ],
+               borderWidth:2,
+               borderColor:"rgba(122, 122, 122, 0.4)",
+               hoverBorderWidth:3,
+             }],
+           },
+           options: {
+             legend:{
+               display:true,
+               position:"left"
+             }
+           },
+         });
+       </script>
 
-        let dChart = new Chart(dayChart, {
-          type:"bar",
-          data:{
-            labels:["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-            datasets:[{
-              label: "# of Dreams",
-              data:[
-                {{ Monday }},
-                {{ Tuesday }},
-                {{ Wednesday }},
-                {{ Thursday }},
-                {{ Friday }},
-                {{ Saturday }},
-                {{ Sunday }}
-              ],
-              backgroundColor:[
-                'rgba(245, 226, 79, 0.4)',
-                'rgba(79, 99, 247, 0.4)',
-                'rgba(181, 245, 79, 0.4)',
-                'rgba(245, 143, 79, 0.4)',
-                'rgba(143, 79, 245, 0.4)',
-                'rgba(79, 181, 245, 0.4)',
-                'rgba(227, 170, 170, 0.4)'
-              ],
-              borderWidth:2,
-              borderColor:"rgba(122, 122, 122, 0.4)",
-              hoverBorderWidth:3,
-            }],
-          },
-          options: {},
-        });
-      </script>
+       <script>
+         let dayChart = document.getElementById("dayChart").getContext('2d');
 
-      <!--JavaScript at end of body for optimized loading-->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+         let dChart = new Chart(dayChart, {
+           type:"bar",
+           data:{
+             labels:["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+             datasets:[{
+               label: "# of Dreams",
+               data:[
+                 {{ Monday }},
+                 {{ Tuesday }},
+                 {{ Wednesday }},
+                 {{ Thursday }},
+                 {{ Friday }},
+                 {{ Saturday }},
+                 {{ Sunday }}
+               ],
+               backgroundColor:[
+                 'rgba(245, 226, 79, 0.4)',
+                 'rgba(79, 99, 247, 0.4)',
+                 'rgba(181, 245, 79, 0.4)',
+                 'rgba(245, 143, 79, 0.4)',
+                 'rgba(143, 79, 245, 0.4)',
+                 'rgba(79, 181, 245, 0.4)',
+                 'rgba(227, 170, 170, 0.4)'
+               ],
+               borderWidth:2,
+               borderColor:"rgba(122, 122, 122, 0.4)",
+               hoverBorderWidth:3,
+             }],
+           },
+           options: {},
+         });
+       </script>
 
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+       <!--JavaScript at end of body for optimized loading-->
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
 
-      <script type="text/javascript">
-      document.getElementById("submitNav").onclick = function () {
-         location.href = "/submit";
-       };
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
-      document.getElementById("mainPage").onclick = function () {
-         location.href = "/";
-       };
+       <script type="text/javascript">
+       document.getElementById("submitNav").onclick = function () {
+          location.href = "/submit";
+        };
 
-      document.getElementById("data").onclick = function () {
-         location.href = "/showdata";
-       };
+       document.getElementById("mainPage").onclick = function () {
+          location.href = "/";
+        };
 
-      document.getElementById("all").onclick = function () {
-         location.href = "/allDreams";
-       };
+       document.getElementById("data").onclick = function () {
+          location.href = "/showdata";
+        };
 
-      document.getElementById("aboutUs").onclick = function () {
-         location.href = "/AboutUs";
-       };
-      </script>
+       document.getElementById("all").onclick = function () {
+          location.href = "/allDreams";
+        };
 
-    </body>
-  </html>
+       document.getElementById("aboutUs").onclick = function () {
+          location.href = "/AboutUs";
+        };
+       </script>
 
-<style media="screen">
+     </body>
+   </html>
 
-.active {
-    background-color: grey;
-}
+ <style media="screen">
 
-#nav{
-  background-color: #212121  ;
-  width: 100%;
-}
-.box{
-  border : 1px black;
-  background-color: black;
-  float: none;
-  height: 100px;
-  width: 100px;
-  padding: 0px;
-  margin: 0px;
-}
+ .active {
+     background-color: grey;
+ }
 
-.box2{
-  border : 1px black;
-  /* background-color: white; */
-  float: none;
-  height: 400px;
-  width: 500px;
-  padding: 0px;
-  margin-left: 75px;
-  margin-top: 0;
+ #nav{
+   background-color: #212121  ;
+   width: 100%;
+ }
+ .box{
+   border : 1px black;
+   background-color: black;
+   float: none;
+   height: 100px;
+   width: 100px;
+   padding: 0px;
+   margin: 0px;
+ }
 
-}
-#canvas-holder{
-  margin-left: 400px;
-  margin-top: 0px;
-}
+ .box2{
+   border : 1px black;
+   /* background-color: white; */
+   float: none;
+   height: 400px;
+   width: 500px;
+   padding: 0px;
+   margin-left: 75px;
+   margin-top: 0;
 
-#canvas-holder1{
-  margin-top: 0;
-}
+ }
+ #canvas-holder{
+   margin-left: 400px;
+   margin-top: 0px;
+ }
 
-.boxed {
-  width: 320px;
-  height: 100px;
-  padding: 10px;
-  border: 1px solid purple;
-  margin-right: 270px;
-  margin-top: 200px;
-  border-radius: 10px;
-  float: right;
-  background-color: #E4D0F2;
-  color: black;
-  text-align: center;
-}
+ #canvas-holder1{
+   margin-top: 0;
+ }
 
-.boxed2 {
-  width: 320px;
-  height: 100px;
-  padding: 10px;
-  border: 1px solid purple;
-  margin-right: 570px;
-  margin-top: 200px;
-  border-radius: 10px;
-  float: right;
-  background-color: #E4D0F2;
-  color: black;
-  text-align: center;
-}
+ .center-div{
+      margin: 0 auto;
+      width: 100px;
+ }
 
-</style>
+ .boxed {
+   width: 320px;
+   height: 100px;
+   padding: 10px;
+   border: 1px solid purple;
+   margin-right: 270px;
+   margin-top: 200px;
+   border-radius: 10px;
+   float: right;
+   background-color: #E4D0F2;
+   color: black;
+   text-align: center;
+ }
+
+ .boxed2 {
+   width: 320px;
+   height: 100px;
+   padding: 10px;
+   border: 1px solid purple;
+   margin-right: 570px;
+   margin-top: 200px;
+   border-radius: 10px;
+   float: right;
+   background-color: #E4D0F2;
+   color: black;
+   text-align: center;
+ }
+ </style>
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+ <script>
+ (function ($) {
+ $.fn.countTo = function (options) {
+   options = options || {};
+
+   return $(this).each(function () {
+     // set options for current element
+     var settings = $.extend({}, $.fn.countTo.defaults, {
+       from:            $(this).data('from'),
+       to:              $(this).data('to'),
+       speed:           $(this).data('speed'),
+       refreshInterval: $(this).data('refresh-interval'),
+       decimals:        $(this).data('decimals')
+     }, options);
+
+     // how many times to update the value, and how much to increment the value on each update
+     var loops = Math.ceil(settings.speed / settings.refreshInterval),
+       increment = (settings.to - settings.from) / loops;
+
+     // references & variables that will change with each update
+     var self = this,
+       $self = $(this),
+       loopCount = 0,
+       value = settings.from,
+       data = $self.data('countTo') || {};
+
+     $self.data('countTo', data);
+
+     // if an existing interval can be found, clear it first
+     if (data.interval) {
+       clearInterval(data.interval);
+     }
+     data.interval = setInterval(updateTimer, settings.refreshInterval);
+
+     // initialize the element with the starting value
+     render(value);
+
+     function updateTimer() {
+       value += increment;
+       loopCount++;
+
+       render(value);
+
+       if (typeof(settings.onUpdate) == 'function') {
+         settings.onUpdate.call(self, value);
+       }
+
+       if (loopCount >= loops) {
+         // remove the interval
+         $self.removeData('countTo');
+         clearInterval(data.interval);
+         value = settings.to;
+
+         if (typeof(settings.onComplete) == 'function') {
+           settings.onComplete.call(self, value);
+         }
+       }
+     }
+
+     function render(value) {
+       var formattedValue = settings.formatter.call(self, value, settings);
+       $self.html(formattedValue);
+     }
+     });
+     };
+
+     $.fn.countTo.defaults = {
+       from: 0,               // the number the element should start at
+       to: 0,                 // the number the element should end at
+       speed: 1000,           // how long it should take to count between the target numbers
+       refreshInterval: 100,  // how often the element should be updated
+       decimals: 0,           // the number of decimal places to show
+       formatter: formatter,  // handler for formatting the value before rendering
+       onUpdate: null,        // callback method for every time the element is updated
+       onComplete: null       // callback method for when the element finishes updating
+     };
+
+     function formatter(value, settings) {
+       return value.toFixed(settings.decimals);
+     }
+     }(jQuery));
+
+     jQuery(function ($) {
+     // custom formatting example
+     $('.count-number').data('countToOptions', {
+     formatter: function (value, options) {
+       return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
+     }
+     });
+
+     // start all the timers
+     $('.timer').each(count);
+
+     function count(options) {
+     var $this = $(this);
+     options = $.extend({}, options || {}, $this.data('countToOptions') || {});
+     $this.countTo(options);
+     }
+     });
+ </script>
