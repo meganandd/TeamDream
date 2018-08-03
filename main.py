@@ -158,9 +158,11 @@ class ShowDreamHandler(BaseHandler):
         url = "https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2017-09-21&text=" + dream_summary
 
         r = requests.get(url, auth=("12b8c206-770b-4989-9909-2c1c625c9a8d", "nMHwFGhjTHIT"))
-        json_result = json.loads(r.text)["document_tone"]["tones"][0]["tone_name"]
 
-        dream_sentiment = json_result
+        try:
+            dream_sentiment = json.loads(r.text)["document_tone"]["tones"][0]["tone_name"]
+        except IndexError:
+            dream_sentiment = "Null"
 
         owner = self.session.get("username")
 
@@ -187,8 +189,8 @@ class DreamDataHandler(BaseHandler):
 
         #get occurance of each sentiment in all dreams in DataStore
 
-        possible_sentiments = ["Fear", "Anger", "Joy", "Confident", "Analytical", "Sadness", "Tentative"]
-
+        possible_sentiments = ["Fear", "Anger", "Joy", "Confident", "Analytical", "Sadness", "Tentative", "Null"]
+        
         owner = self.session.get("username")
         current_owner_dreams = Dream.query().filter(Dream.owner==owner).fetch()
 
