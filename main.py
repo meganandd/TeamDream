@@ -21,6 +21,7 @@ import requests_toolbelt.adapters.appengine
 from google.appengine.api import urlfetch
 import json
 import datetime
+import operator
 
 requests_toolbelt.adapters.appengine.monkeypatch()
 
@@ -135,6 +136,47 @@ class DreamDataHandler(webapp2.RequestHandler):
             for d in weekdays:
                 if d == day:
                     vardict[day] += 1
+
+        #word frequency
+        def get_stop_words():
+            with open('stop-words.txt') as f:
+                content = ' '.join(f.readlines()).replace('\n','').replace('\r','').lower()
+                return content.split(' ')
+
+        all_text = []
+
+        for dream in Dream.query().fetch():
+            all_text.append(dream.dream_text)
+
+        word_count = {}
+
+        words = []
+        for text in all_text:
+            words.append(text.split())
+
+        for entry in words:
+            for word in entry:
+                 if not word in word_count:
+                     word_count[word] = 0
+                 word_count[word] += 1
+
+        sorted_map = list(reversed(sorted(word_count.items(), key=operator.itemgetter(1))))
+
+        sorted_words = [sort[0] for sort in sorted_map]
+
+        top_words = []
+        for word in sorted_words:
+            if word.lower() not in get_stop_words():
+                top_words.append(word)
+
+        places = ["first", "second", "third", "fourth", "fifth"]
+        # Fixed bug here -- add to TeamDream
+        if len(top_words) < 5:
+            for i in range(len(top_words)):
+                vardict[places[i]] = top_words[i]
+        else:
+            for i in range(5):
+                vardict[places[i]] = top_words[i]
 
         self.response.write(data_template.render(vardict))
 
