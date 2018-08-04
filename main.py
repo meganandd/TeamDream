@@ -72,17 +72,21 @@ class LogIn(BaseHandler):
         welcome_template=JINJA_ENVIRONMENT.get_template('templates/submit.html')
         acc_name=self.request.get("acc-name")
         acc_pass=self.request.get("acc-pass")
-        self.session["username"]=acc_name
-        self.session["password"]=acc_pass
-        if acc_name==" ":
-            self.response.write(home_template.render())
+        print acc_name
+        if acc_name=="":
+            self.response.write(login_template.render())
 
         elif Acc.query().filter(Acc.username == acc_name).fetch() and Acc.query().filter(Acc.password == acc_pass).fetch():
+            self.session["username"]=acc_name
+            self.session["password"]=acc_pass
             self.response.write(welcome_template.render())
 
         else:
+            error= "Username or password incorrect"
+#print ("The user name " + user_name + " is already taken. Please try something else.")
+            self.response.write(login_template.render(error=error))
             #print("Username or Password is incorrect")
-            self.response.write(login_template.render())
+            #self.response.write(login_template.render())
 
         # allpasswords=Acc.query().filter(Acc.password == acc_pass).fetch()
 
@@ -118,13 +122,14 @@ class CreateAccount(BaseHandler):
         self.session["username"]=user_name
         self.session["password"]=pass_word
         account = Acc(username=user_name, password=pass_word)
-        account.put()
         if Acc.query().filter(Acc.username == user_name).fetch():
             error={"error_message":"The user name " + user_name + " is already taken. Please try something else."}
             #print ("The user name " + user_name + " is already taken. Please try something else.")
             self.response.write(acc_template.render(error))
         else:
+            account.put()
             self.response.write(welcome_template.render())
+
 
 
 class LogoutHandler(BaseHandler):
@@ -190,7 +195,7 @@ class DreamDataHandler(BaseHandler):
         #get occurance of each sentiment in all dreams in DataStore
 
         possible_sentiments = ["Fear", "Anger", "Joy", "Confident", "Analytical", "Sadness", "Tentative", "Null"]
-        
+
         owner = self.session.get("username")
         current_owner_dreams = Dream.query().filter(Dream.owner==owner).fetch()
 
